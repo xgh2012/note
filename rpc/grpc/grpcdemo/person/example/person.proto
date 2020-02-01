@@ -1,0 +1,35 @@
+//指定版本 使用protobuf3
+syntax="proto3";
+
+//每个 *.proto 文件可以指定 package 作为生成语言的 namespace
+package example;
+
+//message 用来定义一个数据结构
+//repeated 的使用：被 repeated 标识的字段可以理解为是一个数组
+//enum 类型使用：枚举用来表示一定范围内具有相同属性的值
+//message 类型的使用： message 在定义过程中是可以声明自己定义的 message 类型
+//map 类型的使用：message 定义时可以使用 map 类型
+message Person{
+    int64 age = 1; //年龄
+    string realname = 2;//真实姓名
+    string sex = 3;//性别
+    repeated string vehicle = 4; //上班交通工具 可以有多份工作 string 类型的
+    enum Skills {
+        GOLANG = 0;
+        PYTHON = 1;
+        JAVA = 2;
+        RUST = 3;
+        CPP = 4;
+    }
+    Skills skill = 5;//技能 枚举用来表示一定范围内具有相同属性的值
+    WorkDays workDay = 6;//工作日 message 在定义过程中是可以声明自己定义的 message 类型
+    map<string, Department> dept = 7;//挂靠部门 map 类型的使用：message 定义时可以使用 map 类型
+}
+
+message WorkDays {
+    int32 day = 1;
+}
+
+message Department {
+    string name = 1;
+}

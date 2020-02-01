@@ -1,0 +1,19 @@
+//指定版本 使用protobuf3
+syntax="proto3";
+
+//每个 *.proto 文件可以指定 package 作为生成语言的 namespace
+package example;
+
+service Hello {
+    // rpc 定义可远程调用服务
+    rpc HelloWorld (HelloRequest) returns (HelloReply) {}
+}
+
+message HelloRequest{
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+    string time = 2;
+}
