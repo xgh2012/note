@@ -4,6 +4,7 @@ import (
 	"log"
 	"net"
 	"net/rpc"
+	"net/rpc/jsonrpc"
 	"note/rpc/simpledemo/server/hello"
 )
 
@@ -26,6 +27,7 @@ func main() {
 		}
 
 		log.Println(conn)
-		go rpc.ServeConn(conn)
+		//go rpc.ServeConn(conn)
+		go jsonrpc.ServeConn(conn)
 	}
 }

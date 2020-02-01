@@ -6,6 +6,7 @@ import (
 	"log"
 	pb "note/rpc/grpc/grpcdemo/GrpcT/helloWorld"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -25,15 +26,22 @@ func main() {
 	if len(os.Args) > 1 {
 		name = os.Args[1]
 	}
+	for i := 1; i <= 10000; i++ {
+		name = "World XGH " + strconv.Itoa(i)
 
-	//设置上下文超时
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
+		go func(name string) {
+			//设置上下文超时
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			defer cancel()
 
-	//响应
-	resp, err := cli.HelloWorld(ctx, &pb.HelloRequest{Name: name})
-	if err != nil {
-		log.Fatalf("could not succ: %v", err)
+			//响应
+			resp, err := cli.HelloWorld(ctx, &pb.HelloRequest{Name: name})
+			if err != nil {
+				log.Fatalf("could not succ: %v", err)
+			}
+			log.Printf("Receive from server: %s", resp.Message)
+		}(name)
+
+		time.Sleep(500 * time.Millisecond)
 	}
-	log.Printf("Receive from server: %s", resp.Message)
 }

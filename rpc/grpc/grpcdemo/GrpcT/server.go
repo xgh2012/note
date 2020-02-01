@@ -8,16 +8,22 @@ import (
 	"net"
 	pb "note/rpc/grpc/grpcdemo/GrpcT/helloWorld"
 	"strconv"
+	"sync"
 )
 
-var times = 0
+var (
+	times = 0
+	mu    sync.Mutex
+)
 
 type service struct {
 }
 
 func (s *service) HelloWorld(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	log.Printf("Received: %v", in.Name)
+	mu.Lock()
 	times++
+	mu.Unlock()
 	return &pb.HelloReply{Message: "Hello 您好！" + in.Name + " 您是今天第" + strconv.Itoa(times) + "个访客"}, nil
 }
 
